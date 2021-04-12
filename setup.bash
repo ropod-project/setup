@@ -11,9 +11,14 @@ export ED_MODEL_PATH=$CATKIN_WORKSPACE/src/functionalities/ED/ed_object_models/m
 
 export ROPOD_IP=192.168.44.90
 export ROPOD_TUE_2_IP=192.168.44.92
-export ROPOD_IP_WIRED=10.0.0.2
+export ROPOD_IP_WIRED=169.254.104.2
+export JETSON_IP=169.254.104.10
+
+alias sshjetson="ssh nvidia@$JETSON_IP"
 
 unset ROS_HOSTNAME
+
+#export ROS_IP=`hostname -I | awk '{print $2}'`
 
 source /opt/ros/kinetic/setup.bash
 source $CATKIN_WORKSPACE/devel/setup.bash
@@ -37,6 +42,7 @@ alias teleop='rosrun robot_common teleop.py'
 alias rstart='roslaunch ropod_tue_1_bringup start.launch LOAD_ATTACHED:="false"'
 alias rmstart='roslaunch ropod_tue_1_bringup start.launch LOAD_ATTACHED:="true" loadName:="mobidik"'
 alias r2start='roslaunch ropod_tue_2_bringup start.launch LOAD_ATTACHED:="false"'
+alias r2startflock='export ROS_MASTER_URI=http://192.168.44.90:11311;unset ROS_HOSTNAME;roslaunch ropod_tue_2_bringup flock.launch LOAD_ATTACHED:="false"'
 
 alias git-status='functionalities; ./multi-git-status/mgitstatus ~/ropod-project-software/catkin_workspace/src/ 4; catkin_workspace'
 
@@ -65,3 +71,5 @@ function git_branches()
 alias git-check-branches='applications; git_branches .; functionalities; git_branches .; git_branches ./ED; git_branches ./ropod_comm; git_branches ./ropod_nav/; git_branches ./ros_experimental_nav/; platform; git_branches .; catkin_workspace; git_branches .'
 
 alias update-dependencies='rosdep update;rosdep install --from-path . -i -y;'
+
+#export ROS_IP=`hostname -I | awk '{print $2}'`
